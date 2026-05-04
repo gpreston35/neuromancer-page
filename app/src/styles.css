@@ -95,6 +95,61 @@ button {
   background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.75));
 }
 
+.side-nav {
+  position: absolute;
+  inset: 2rem auto auto 2rem;
+  width: min(15rem, calc(100vw - 4rem));
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--fg), transparent 78%);
+  border-radius: 1.4rem;
+  background: color-mix(in srgb, var(--bg, #07080d), transparent 54%);
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.16);
+  backdrop-filter: blur(14px);
+  text-align: left;
+}
+
+.side-nav__label {
+  color: var(--muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.side-nav__link {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.85rem;
+  border-radius: 1rem;
+  color: var(--fg);
+  text-decoration: none;
+  background: color-mix(in srgb, var(--accent), transparent 88%);
+  border: 1px solid color-mix(in srgb, var(--accent), transparent 62%);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.side-nav__link:hover {
+  transform: translateX(2px);
+  border-color: color-mix(in srgb, var(--accent), transparent 24%);
+  background: color-mix(in srgb, var(--accent), transparent 80%);
+}
+
+.side-nav__link:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent), transparent 30%);
+  outline-offset: 4px;
+}
+
+.side-nav__link span {
+  font-weight: 800;
+}
+
+.side-nav__link strong {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
 .mode-shell {
   position: absolute;
   inset: 2rem 2rem auto auto;
@@ -119,7 +174,7 @@ button {
 
 .toggle {
   position: absolute;
-  inset: 2rem auto auto 2rem;
+  inset: 5rem 2rem auto auto;
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
@@ -177,11 +232,16 @@ h1 {
 
 @media (max-width: 640px) {
   .landing {
-    padding: 6rem 1.25rem 2rem;
+    padding: 11.5rem 1.25rem 2rem;
+  }
+
+  .side-nav {
+    inset: 1rem 1rem auto;
+    width: auto;
   }
 
   .toggle {
-    inset: 1rem 1rem auto 1rem;
+    inset: 7.4rem 1rem auto 1rem;
     justify-content: center;
   }
 

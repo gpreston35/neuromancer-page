@@ -6,6 +6,14 @@ export default function App() {
 
   return (
     <main className={`landing ${isDay ? 'day' : 'night'}`} aria-label="Neuromancer landing page">
+      <nav className="side-nav" aria-label="Feature navigation">
+        <span className="side-nav__label">Features</span>
+        <a href="/openfda/" className="side-nav__link">
+          <span>OpenFDA</span>
+          <strong>Public explorer</strong>
+        </a>
+      </nav>
+
       <div className="mode-shell" aria-hidden="true">
         <span className={isDay ? 'sun active' : 'sun'}>☀︎</span>
         <span className={!isDay ? 'moon active' : 'moon'}>☾</span>
