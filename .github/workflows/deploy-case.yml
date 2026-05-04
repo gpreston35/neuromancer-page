@@ -1,0 +1,37 @@
+name: Deploy to Case
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-case
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.CASE_SSH_KEY }}
+
+      - name: Add Case to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "${{ secrets.CASE_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Deploy on Case
+        run: |
+          ssh "${{ secrets.CASE_USER }}@${{ secrets.CASE_HOST }}" 'cd /opt/neuromancer-page && ./scripts/deploy-case.sh'
+
+      - name: Verify public URL
+        run: |
+          curl -fsS http://${{ secrets.CASE_HOST }}/ -o /tmp/case-index.html
+          grep -q '<div id="root"></div>' /tmp/case-index.html
+          asset_path="$(grep -o '/assets/[^" ]*\.js' /tmp/case-index.html | head -1)"
+          test -n "$asset_path"
+          curl -fsS "http://${{ secrets.CASE_HOST }}${asset_path}" -o /tmp/case-app.js
+          grep -q 'Brought to you by Neuromancer' /tmp/case-app.js
