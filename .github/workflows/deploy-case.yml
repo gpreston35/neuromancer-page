@@ -13,19 +13,23 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Start SSH agent
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.CASE_SSH_KEY }}
+      - name: Prepare SSH key
+        env:
+          CASE_SSH_KEY_B64: ${{ secrets.CASE_SSH_KEY_B64 }}
+        run: |
+          test -n "$CASE_SSH_KEY_B64"
+          mkdir -p ~/.ssh
+          echo "$CASE_SSH_KEY_B64" | base64 -d > ~/.ssh/case_deploy_key
+          chmod 600 ~/.ssh/case_deploy_key
+          ssh-keygen -y -f ~/.ssh/case_deploy_key > /dev/null
 
       - name: Add Case to known hosts
         run: |
-          mkdir -p ~/.ssh
           ssh-keyscan -H "${{ secrets.CASE_HOST }}" >> ~/.ssh/known_hosts
 
       - name: Deploy on Case
         run: |
-          ssh "${{ secrets.CASE_USER }}@${{ secrets.CASE_HOST }}" 'cd /opt/neuromancer-page && ./scripts/deploy-case.sh'
+          ssh -i ~/.ssh/case_deploy_key "${{ secrets.CASE_USER }}@${{ secrets.CASE_HOST }}" 'cd /opt/neuromancer-page && ./scripts/deploy-case.sh'
 
       - name: Verify public URL
         run: |
