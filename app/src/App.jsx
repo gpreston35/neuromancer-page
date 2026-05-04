@@ -9,8 +9,8 @@ export default function App() {
       <nav className="side-nav" aria-label="Feature navigation">
         <span className="side-nav__label">Features</span>
         <a href="/openfda/" className="side-nav__link">
-          <span>OpenFDA</span>
-          <strong>Public explorer</strong>
+          <span>Enforcement Data</span>
+          <strong>OpenFDA explorer</strong>
         </a>
       </nav>
 
