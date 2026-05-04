@@ -9,7 +9,7 @@
     "build:github": "vite build app --outDir ../dist --emptyOutDir --base=/neuromancer-page/",
     "build:server": "vite build app --outDir ../dist --emptyOutDir --base=/",
     "preview": "vite preview --host 0.0.0.0",
-    "publish:github": "npm run build:github && cp -R dist/* .",
+    "publish:github": "npm run build:github && rm -rf assets && cp -R dist/* .",
     "deploy:case": "./scripts/deploy-case.sh"
   },
   "dependencies": {
