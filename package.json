@@ -5,8 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite app --host 0.0.0.0",
-    "build": "vite build app --outDir ../dist",
-    "preview": "vite preview --host 0.0.0.0"
+    "build": "npm run build:github",
+    "build:github": "vite build app --outDir ../dist --emptyOutDir --base=/neuromancer-page/",
+    "build:server": "vite build app --outDir ../dist --emptyOutDir --base=/",
+    "preview": "vite preview --host 0.0.0.0",
+    "publish:github": "npm run build:github && cp -R dist/* .",
+    "deploy:case": "./scripts/deploy-case.sh"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
